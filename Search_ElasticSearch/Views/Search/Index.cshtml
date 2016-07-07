@@ -1,0 +1,26 @@
+﻿@using System.Web.Mvc.Html
+@model Search_ElasticSearch.Models.SearchViewModel
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Search Page</h2>
+
+<p>Enter your search term here!</p>
+
+@using (Html.BeginForm("Index", "Search", FormMethod.Post))
+{
+    <div class="form-group">
+        @Html.LabelFor(m => m.SearchTerm, new { @class = "col-md-2 control-label" })
+        <div class="col-md-10">
+            @Html.TextBoxFor(m => m.SearchTerm, new { @class = "form-control" })
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-md-offset-2 col-md-10">
+            <input type="submit" value="Search" class="btn btn-default"/>
+        </div>
+    </div>
+}
