@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-
-namespace Search_ElasticSearch.Models
+﻿namespace Search_ElasticSearch.Models
 {
     using System.ComponentModel.DataAnnotations;
     using SearchProvider;

@@ -1,13 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
+﻿using System.Web.Mvc;
 
 namespace Search_ElasticSearch.Controllers
 {
     using Models;
-    using Nest;
     using SearchProvider;
 
     public class SearchController : Controller
@@ -19,16 +14,26 @@ namespace Search_ElasticSearch.Controllers
         }
 
         // GET: Search
-        public ActionResult Index()
+        public ActionResult Index(string currentFilter, int page = 1)
         {
+            if (currentFilter != null)
+            {
+                SearchResult<Product> result = searchProvider.Search(currentFilter, page);
+                var model = new SearchViewModel { SearchResult = result,SearchTerm = currentFilter};
+                return View("SearchResults", model);                
+            }
             return View();
         }
 
         [HttpPost]
-        public ActionResult Index(string searchTerm)
+        public ActionResult Index(string searchTerm, string currentFilter, int page=1)
         {
             SearchResult<Product> result = searchProvider.Search(searchTerm);
-            var model = new SearchViewModel {SearchResult = result};
+            var model=new SearchViewModel
+            {
+                SearchResult = result,
+                SearchTerm = searchTerm
+            };
             return View("SearchResults",model);
         }
     }

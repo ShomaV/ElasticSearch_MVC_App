@@ -1,13 +1,7 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Collections.Generic;
 
 namespace Search_ElasticSearch.SearchProvider
 {
-    using Models;
-    using Nest;
-
     public class SearchResult<T>
     {
         public int Total { get; set; }

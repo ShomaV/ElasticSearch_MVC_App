@@ -2,14 +2,12 @@
 {
     using System;
     using System.Collections.Generic;
-    using System.Linq;
-    using System.Threading.Tasks;
     using Models;
     using Nest;
 
     public class SearchProvider : ISearchService<Product>
     {
-        private const int RESULTS_PER_PAGE=5;
+        private const int ResultsPerPage=5;
         private static ElasticClient ElasticClient
         {
             get
@@ -25,7 +23,7 @@
             }
         }
 
-        public SearchResult<Product> Search(string queryString, int page=1, int pSize= RESULTS_PER_PAGE)
+        public SearchResult<Product> Search(string queryString, int page=1, int pSize= ResultsPerPage)
         {
             var from = (page - 1)*pSize;
             var result = ElasticClient.Search<Product>(body => body
@@ -43,10 +41,9 @@
                 Total = (int)result.Total,
                 Page = page,
                 From = from,
-                Results = result.Documents,
-                //Hits = result.Hits.Count(),
+                Results = result.Documents,                
                 ElapsedMilliseconds = result.Took,
-                TotalOnPage = (to > (int)result.Total)? (int)result.Total:to
+                TotalOnPage = (to > (int)result.Total)? (int)result.Total:to,                
             };
         }
 

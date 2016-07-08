@@ -1,5 +1,8 @@
 ﻿@using System.Web.Mvc.Html
-@model Search_ElasticSearch.Models.SearchViewModel
+@using PagedList
+@using PagedList.Mvc
+@using Search_ElasticSearch.Models
+@model SearchViewModel
 
 @{
     ViewBag.Title = "Index";
@@ -8,13 +11,21 @@
 <h2>Search Results Page</h2>
 @{
     var fromResults = Model.SearchResult.From + 1;
+    IEnumerable<Product> products = Model.SearchResult.Results;
+    var pageNumber =fromResults;
+    var pageSize = Model.SearchResult.TotalOnPage;
+    var total = Model.SearchResult.Total;
+    var pageCount = total/pageSize;
 }
-<h3>Displaying results from @fromResults to @Model.SearchResult.TotalOnPage of @Model.SearchResult.Total</h3>
+<h3>Displaying results from @fromResults to @pageSize of @total</h3>
+Page @fromResults of @pageCount
 @using (Html.BeginForm("Index", "Search"))
 {
-    if (Model!=null && Model.SearchResult.Results.Any())
+    @Html.PagedListPager(new PagedList<Product>(products, fromResults, 1), page => Url.Action("Index",
+      new { page, sortOrder = ViewBag.CurrentSort, currentFilter = Model.SearchTerm }))
+    if (Model != null && Model.SearchResult.Results.Any())
     {
-        foreach (var result in Model.SearchResult.Results)
+        foreach (Product result in Model.SearchResult.Results)
         {
             <div class="form-group">
                 <p>@result.Name</p>
@@ -23,3 +34,5 @@
         }
     }
 }
+<br />
+
